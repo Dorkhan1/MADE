@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="/styleForAdmin.css">
+</head>
+<body>  
+  <header>
+    <h1>Панель администратора</h1>
+    <nav>
+      <ul>
+        <li><a href="/" class="nav-button">Главная</a></li>
+        <li><a href="/admin" class="active">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="admin-panel">
+    <!-- Добавление пользователя -->
+    <section class="add-user">
+      <h2>Добавить нового пользователя</h2>
+      <form action="/admin/add" method="POST">
+        <div class="form-group">
+          <label for="username">Имя пользователя:</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Пароль:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="isAdmin">
+            <input type="checkbox" id="isAdmin" name="isAdmin" />
+            Администратор
+          </label>
+        </div>
+        
+        <button type="submit" class="button">Добавить</button>
+      </form>
+    </section>
+
+    <!-- Список пользователей -->
+    <section class="user-list">
+      <h2>Список пользователей</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Администратор</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.isAdmin ? 'Да' : 'Нет' %></td>
+            <td>
+              <!-- Форма удаления пользователя -->
+              <form action="/admin/delete/<%= user._id %>" method="POST" style="display: inline;">
+                <button type="submit" class="button danger">Удалить</button>
+              </form>
+              
+              <!-- Форма редактирования пользователя -->
+              <form action="/admin/edit/<%= user._id %>" method="POST" style="display: inline;">
+                <input type="text" name="username" value="<%= user.username %>" required />
+                <label>
+                  <input type="checkbox" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %> />
+                  Администратор
+                </label>
+                <button type="submit" class="button">Обновить</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Управление товарами -->
+    <div class="container">
+      <!-- Форма для добавления нового товара -->
+      <h2>Добавить новый айтем</h2>
+      <form action="/admin/items/add" method="POST">
+        <label>Название (английский):</label>
+        <input type="text" name="name_en" required>
+    
+        <label>Название (другой язык):</label>
+        <input type="text" name="name_other" required>
+    
+        <label>Описание (английский):</label>
+        <textarea name="description_en" required></textarea>
+    
+        <label>Описание (другой язык):</label>
+        <textarea name="description_other" required></textarea>
+    
+        <label>Картинки (Вставьте 3 URLs)</label>
+        <input type="text" name="image1" class="form-control" placeholder="Image 1 URL" required>
+        <input type="text" name="image2" class="form-control" placeholder="Image 2 URL" required>
+        <input type="text" name="image3" class="form-control" placeholder="Image 3 URL" required>
+    
+        <button type="submit">Добавить</button>
+    </form>
+
+      <hr>
+
+      <!-- Список товаров -->
+      <h2>Управление айтемами</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Картинки</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% items.forEach(item => { %>
+                <tr>
+                    <td><%= item.name_en %> / <%= item.name_other %></td>
+                    <td><%= item.description_en %></td>
+                    <td>
+                        <img src="<%= item.images[0] %>" width="50">
+                        <img src="<%= item.images[1] %>" width="50">
+                        <img src="<%= item.images[2] %>" width="50">
+                    </td>
+                    <td>
+                        <!-- Edit Form -->
+                        <form action="/admin/items/edit/<%= item._id %>" method="POST" style="display:inline;">
+                        <form action="/admin/items/edit/<%= item._id %>" method="POST" style="display: inline;">
+                          <input type="text" name="name_en" value="<%= item.name_en %>" required />
+                        <form action="/admin/items/edit/<%= item._id %>" method="POST" style="display: inline;">
+                          <input type="text" name="name_other" value="<%= item.name_other %>" required />
+                        <form action="/admin/items/edit/<%= item._id %>" method="POST" style="display: inline;">
+                          <input type="text" name="description_en" value="<%= item.description_en %>" required />
+                        <form action="/admin/items/edit/<%= item._id %>" method="POST" style="display: inline;">
+                            <input type="text" name="description_other" value="<%= item.description_other %>" required />
+                            <button type="submit" class="btn btn-warning">Обновить</button>
+                        </form>
+                        <!-- Delete Form -->
+                        <form action="/admin/items/delete/<%= item._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="button danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    </div>
+  </main>
+</body>
+</html>
