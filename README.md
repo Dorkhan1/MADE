@@ -10,7 +10,7 @@ This platform provides an interactive environment for learning programming. It i
 - 📚 **Programming Courses** with structured lessons.
 - 💻 **Online Compiler** for hands-on coding experience.
 - 🔍 **Book Search** integrated with APIs for finding relevant coding books.
-- 🔧 **Admin Panel** for user management.
+- 🔧 **Admin Panel** for user management
 
 ## Setup Instructions
 
