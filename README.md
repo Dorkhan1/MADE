@@ -65,42 +65,32 @@ The project uses **MongoDB** with the following collections:
   "username": String,
   "email": String,
   "password": String,  // Hashed password
-  "role": String   //Admin or user
+  "isAdmin": Boolean
 }
 ```
 
-### **Products Collection (`products`):**
+### **Items Collection (`items`):**
 ```json
 {
   "_id": ObjectId,
-  "category": String,
+  "images": Array,
   "title": String,
-  "description": String,
-  "price": String,  // Format: "XXX XXXKZT"
-  "link": String,   // Product page URL
-  "images": Array 
+  "name_en": String,
+  "name_other": String,  
+  "description_en": String,  
+  "description_other": String
 }
 ```
 
-### **Cart Collection (`carts`):**
-```json
-{
-  "_id": ObjectId,
-  "userId": ObjectId,  // Reference to Users Collection
-  "productId": ObjectId, // Reference to Products Collection
-  "totalPrice": String,
-  "imageUrl": String,
-  "title": String
-}
-```
+
 
 ---
 
 ## Setup & Installation
 ### Clone Repository
 ```sh
-git clone https://github.com/sq1der/Clothing-store.git
-cd Clothing-store
+git clone https://github.com/Dorkhan1/MADE/tree/main.git
+cd 3assignment-main
 ```
 
 ### Install Dependencies
@@ -130,20 +120,15 @@ To access the admin panel, use the following credentials:
 | POST   | `/register`   | Register a new user |
 | POST   | `/login`      | Log in a user       |
 
-### Product Management
+### Item Management
 | Method | Endpoint     | Description         |
 |--------|-------------|---------------------|
-| GET    | `/products`    | Fetch all products  |
-| POST   | `/products`    | Add a new product   |
-| PUT    | `/product/:id` | Update a product    |
-| DELETE | `/product/:id` | Remove a product    |
+| GET    | `/item`    | Fetch all items  |
+| POST   | `/admin/items/add`    | Add a new item  |
+| PUT    | `/admin/items/edit/:id` | Update an item    |
+| DELETE | `/admin/items/delete/:id` | Remove an item   |
 
-### Cart Management
-| Method | Endpoint         | Description          |
-|--------|----------------|----------------------|
-| POST   | `/cart`         | Add product to cart      |
-| GET    | `/cart`         | View user's cart         |
-| DELETE | `/cart/:id`     | Remove product from cart |
+
 
 ---
 
